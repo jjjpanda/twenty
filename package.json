@@ -1,0 +1,24 @@
+{
+  "name": "twenty",
+  "version": "1.0.0",
+  "description": "OS reminder every 20 minutes (or a different length of time, whatever)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "service": "node service.js"
+  },
+  "repository": {
+    "url": "git+https://github.com/jjjpanda/twenty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjjpanda/twenty/issues"
+  },
+  "homepage": "https://github.com/jjjpanda/twenty#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "node-cron": "^3.0.0",
+    "node-notifier": "^10.0.0"
+  }
+}
