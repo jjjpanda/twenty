@@ -29,7 +29,7 @@ const reminder = () => {
         icon: path.join(__dirname, 'exclamation.png'),
         sound: true
     }, (err, res) => {
-        fs.appendFile(logPath, `Error: ${err}, Response: ${res}\n`, (err) => {
+        fs.appendFile(logPath, `${new Date().toISOString()} -> Error: ${err}, Response: ${res}\n`, (err) => {
             if(err){
                 errorNotif("Failed to append")
             }
