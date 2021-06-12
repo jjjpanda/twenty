@@ -9,15 +9,16 @@ require('dotenv').config({
 const time = parseInt(process.env.time || 20)
 
 const logPath = path.join(__dirname, "log.txt")
-fs.open(logPath, "w+")
 
 const errorNotif = (msg) => {
+
     notifier.notify({
         title: '⚠⚠⚠',
         message: `${msg}\n${error}`,
         icon: path.join(__dirname, 'exclamation.png'),
         sound: true
     });
+
 }
 
 const reminder = () => {
@@ -28,7 +29,7 @@ const reminder = () => {
         icon: path.join(__dirname, 'exclamation.png'),
         sound: true
     }, (err, res) => {
-        fs.appendFile(logPath, `Error: ${err}, Response: ${res}`, (err) => {
+        fs.appendFile(logPath, `Error: ${err}, Response: ${res}\n`, (err) => {
             if(err){
                 errorNotif("Failed to append")
             }
@@ -40,8 +41,19 @@ const reminder = () => {
     
 }
 
-try {
-    cron.schedule(`*/${time} * * * *`, reminder);
-} catch (error) {
-    errorNotif("Failed to set up!")
-}
+/**
+ * Driver
+ */
+fs.open(logPath, "w+", (err, fd) => {
+    if(!err){
+        try {
+            cron.schedule(`*/${time} * * * *`, reminder);
+        } catch (error) {
+            errorNotif("Failed to set up cron")
+        }   
+    }
+    else{
+        errorNotif("Failed to set up log")
+    }
+})
+
