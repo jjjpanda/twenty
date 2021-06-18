@@ -6,7 +6,8 @@ require('dotenv').config({
     path: path.join(__dirname, ".env")
 })
 
-const time = parseInt(process.env.time || 20)
+const intervalTime = parseInt(process.env.intervalTime || 20)
+const notificationTime =  parseInt(process.env.notificationTime || 20) * 1000
 
 const logPath = path.join(__dirname, "log.txt")
 
@@ -33,12 +34,13 @@ const appendLog = (msg, successCallback) => {
 const reminder = () => {
     notifier.notify({
         title: '🚨🚨🚨',
-        message: `Your ${time > 1 ? time : "every"} minute reminder.`,
+        message: `Your ${intervalTime > 1 ? intervalTime : "every"} minute reminder.`,
         icon: path.join(__dirname, 'exclamation.png'),
-        sound: true
+        sound: true,
+        time: notificationTime
     }, (err, res) => {
         appendLog(`${new Date().toISOString()} -> Error: ${err}, Response: ${res}\n`, () => {
-            console.log(`reminder every ${time} minute${time > 1 ? "s" : ""}`);
+            console.log(`reminder every ${intervalTime} minute${intervalTime > 1 ? "s" : ""}`);
         })
     });
 }
@@ -50,7 +52,7 @@ fs.open(logPath, "w+", (err, fd) => {
     if(!err){
         appendLog(`${new Date().toISOString()} -> Started`, () => {
             try {
-                cron.schedule(`*/${time} * * * *`, reminder);
+                cron.schedule(`*/${intervalTime} * * * *`, reminder);
             } catch (error) {
                 errorNotif("Failed to set up cron")
             }  
