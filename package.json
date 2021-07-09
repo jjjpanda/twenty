@@ -4,8 +4,7 @@
   "description": "OS reminder every 20 minutes (or a different length of time, whatever)",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "service": "node service.js"
+    "start": "node index.js"
   },
   "repository": {
     "url": "git+https://github.com/jjjpanda/twenty.git"
